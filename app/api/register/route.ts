@@ -7,16 +7,19 @@ export async function POST(req: Request) {
     const data = await req.json();
     const { name, email, password } = data;
     if (!name || !email || !password) {
-      return new NextResponse("Massing data", { status: 500 });
+      return new NextResponse("Заповність всі поля!", { status: 500 });
     }
 
     const userAlreadyExist = await prisma.user.findFirst({
       where: {
         email: email,
+        name: name,
       },
     });
     if (userAlreadyExist?.id) {
-      return new NextResponse("User already exist", { status: 500 });
+      return new NextResponse("Такий користувач уже створений!", {
+        status: 500,
+      });
     }
 
     const hashedPassword = await bcrypt.hash(password, 12);
@@ -30,6 +33,6 @@ export async function POST(req: Request) {
 
     return NextResponse.json(newUser);
   } catch (err: any) {
-    return new NextResponse(err, { status: 500 });
+    return new NextResponse("Сталась помилка!", { status: 500 });
   }
 }

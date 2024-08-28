@@ -1,37 +1,52 @@
 "use client";
-import { FC, useState, useEffect } from "react";
+import { FC, useState } from "react";
 import Input from "../Input";
 import Link from "next/link";
 import Button from "../Button";
 import Title from "../Title";
 import toast from "react-hot-toast";
 import axios from "axios";
-import { signIn, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 interface FormProps {}
 
 const Form: FC<FormProps> = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmedPassword, setConfirmedPassword] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [secondName, setSecondName] = useState("");
+  const session = useSession();
+  const [info, setInfo] = useState({
+    email: "",
+    password: "",
+    confirmedPassword: "",
+    firstName: "",
+    secondName: "",
+  });
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+
+  if (session?.status === "authenticated") {
+    router.push("/");
+  }
+
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setInfo((prev) => ({ ...prev, [name]: value }));
+  };
 
   const register = async () => {
     setLoading(true);
     try {
-      const name = `${firstName}_${secondName}`;
-      await axios.post("/api/register", {
-        name,
-        email,
-        password,
-      });
-
-      toast.success("Ви успішно зараєстровані!");
-      router.push("/singin");
+      if (info.password !== info.confirmedPassword) {
+        toast.error("Паролі не співпадають!");
+      } else {
+        const name = `${info.firstName}_${info.secondName}`;
+        await axios.post("/api/register", {
+          name,
+          email: info.email,
+          password: info.password,
+        });
+        toast.success("Ви успішно зараєстровані!");
+        router.push("/signin");
+      }
     } catch (err: any) {
       toast.error(err?.response?.data);
     } finally {
@@ -40,46 +55,51 @@ const Form: FC<FormProps> = () => {
   };
 
   return (
-    <form className="mx-auto flex flex-col gap-5 justify-center items-center bg-white rounded-md shadow-lg sm:w-3/4 lg:w-3/6 xl:w-2/6 p-10">
-      <Title title="Авторизація" type="title" />
+    <form className="mx-auto flex flex-col gap-5 justify-center items-center bg-white rounded-lg shadow-lg w-[95%] sm:w-[calc(100%-20%)] md:w-[calc(100%-40%)] xl:w-[40%] p-10">
+      <Title title="Регістрація" type="title" className="text-purple-400" />
       <Input
         label="Пошта"
         disabled={loading}
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        value={info.email}
+        onChange={(e) => handleInput(e)}
+        name="email"
       />
       <Input
         label="Ім'я"
         disabled={loading}
-        value={firstName}
-        onChange={(e) => setFirstName(e.target.value)}
+        value={info.firstName}
+        onChange={(e) => handleInput(e)}
+        name="firstName"
       />
       <Input
         label="Прізвище"
         disabled={loading}
-        value={secondName}
-        onChange={(e) => setSecondName(e.target.value)}
+        value={info.secondName}
+        onChange={(e) => handleInput(e)}
+        name="secondName"
       />
       <Input
         label="Пароль"
         disabled={loading}
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        value={info.password}
+        onChange={(e) => handleInput(e)}
+        name="password"
         type="password"
       />
       <Input
         label="Повторіть пароль"
         disabled={loading}
-        value={confirmedPassword}
-        onChange={(e) => setConfirmedPassword(e.target.value)}
+        value={info.confirmedPassword}
+        onChange={(e) => handleInput(e)}
+        name="confirmedPassword"
         type="password"
       />
       <Button title="Регістрація" types="login" onClick={register} />
       <div className="flex gap-1">
         <Title title="Маєш аккаунт?" type="text" />
         <Link
-          href="/signin"
-          className="text-blue-600 font-medium text-1 hover:text-blue-800"
+          href="/singin"
+          className="text-blue-500 font-semibold text-1 hover:text-blue-700"
         >
           Увійти
         </Link>

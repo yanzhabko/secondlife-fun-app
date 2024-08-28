@@ -6,47 +6,60 @@ import Button from "../Button";
 import Title from "../Title";
 import toast from "react-hot-toast";
 import { signIn } from "next-auth/react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 interface FormProps {}
 
 const Form: FC<FormProps> = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const router = useRouter();
+  const session = useSession();
+  const [info, setInfo] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
+  if (session?.status === "authenticated") {
+    router.replace("/");
+  }
+
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setInfo((prev) => ({ ...prev, [name]: value }));
+  };
 
   const login = async () => {
     setLoading(true);
 
     const login = await signIn("credentials", {
-      email,
-      password,
+      email: info.email,
+      password: info.password,
       redirect: false,
     });
 
     if (login?.ok) {
       toast.success("Ви увійшли!");
-      window.location.assign("/");
+      router.replace("/");
     } else if (login?.error) {
-      toast.error(login?.error);
+      toast.error("Сталась помилка!");
     }
 
     setLoading(false);
   };
 
   return (
-    <form className="mx-auto flex flex-col gap-5 justify-center items-center bg-white rounded-md shadow-lg sm:w-3/4 lg:w-3/6 xl:w-2/6 p-10">
-      <Title title="Авторизація" type="title" />
+    <form className=" mx-auto flex flex-col gap-5 justify-center items-center bg-white rounded-lg shadow-lg w-[95%] sm:w-[calc(100%-20%)] md:w-[calc(100%-40%)] xl:w-[40%] p-10">
+      <Title title="Авторизація" type="title" className="text-purple-400" />
       <Input
         label="Пошта"
         disabled={loading}
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        value={info.email}
+        name="email"
+        onChange={(e) => handleInput(e)}
       />
       <Input
         label="Пароль"
         disabled={loading}
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        value={info.password}
+        name="password"
+        onChange={(e) => handleInput(e)}
         type="password"
       />
       <Button title="Увійти" types="login" onClick={login} />
@@ -54,7 +67,7 @@ const Form: FC<FormProps> = () => {
         <Title title="Не маєш аккаунту?" type="text" />
         <Link
           href="/signup"
-          className="text-blue-600 font-medium text-1 hover:text-blue-800"
+          className="text-blue-500 font-semibold text-1 hover:text-blue-700"
         >
           Регістрація
         </Link>
