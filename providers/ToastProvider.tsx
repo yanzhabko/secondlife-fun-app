@@ -5,8 +5,9 @@ import { Toaster } from "react-hot-toast";
 const ToastProvider = () => {
   return (
     <Toaster
+      position="top-right"
       containerStyle={{
-        top: 80,
+        top: 120,
       }}
       reverseOrder={false}
     />

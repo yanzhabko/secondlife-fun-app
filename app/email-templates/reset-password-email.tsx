@@ -1,24 +1,27 @@
 import React from "react";
 
 interface ResetPasswordEmailTemplateProps {
+  name: string;
   email: string;
   resetPasswordToken: string;
 }
 
 export const ResetPasswordEmailTemplate: React.FC<
   Readonly<ResetPasswordEmailTemplateProps>
-> = ({ email, resetPasswordToken }) => {
+> = ({ name, email, resetPasswordToken }) => {
   return (
     <div>
-      <h1>
-        Змінити пароль <b>{email}</b>
-      </h1>
-      <p>Для зміни паролю натисніть на посилання</p>
-      <a
-        href={`http://localhost:3000/reset-password?token=${resetPasswordToken}`}
-      >
-        Зміна паролю
-      </a>
+      <p>Вітаєм, {name} </p>
+      <p>
+        Для зміни паролю натисніть на посилання -
+        <a href={`http://localhost:3000/recovery?token=${resetPasswordToken}`}>
+          клік
+        </a>
+      </p>
+      <p>
+        Якщо запит на відновлення паролю зробили не ви, проігноруйте це
+        повідомлення
+      </p>
     </div>
   );
 };

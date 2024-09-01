@@ -11,7 +11,7 @@ export const resendPassword = async (email: string) => {
     },
   });
   if (!user) {
-    throw new Error("Користувач не знайдений");
+    throw new Error("Користувач не знайдений!");
   }
 
   const resetPasswordToken = crypto.randomBytes(32).toString("base64url");
@@ -29,14 +29,15 @@ export const resendPassword = async (email: string) => {
   });
 
   await sendEmail({
-    from: "Admin <onboarding@resend.dev>",
+    from: "SecondFun <onboarding@resend.dev>",
     to: [email],
-    subject: "Відновити ваш пароль",
+    subject: "Відновлення паролю",
     react: ResetPasswordEmailTemplate({
+      name: user.name,
       email,
       resetPasswordToken,
     }) as React.ReactElement,
   });
 
-  return "Лист надісланий";
+  return "Інструкція надіслана!";
 };

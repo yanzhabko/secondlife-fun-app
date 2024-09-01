@@ -4,7 +4,7 @@ import ResetPasswordForm from "@/components/auth/reset-password/ResetPasswordFor
 import ChangePasswordForm from "@/components/auth/change-password/ChangePasswordForm";
 
 export async function generateMetadata({}) {
-  return { title: "Відновлення акаунту | SecondFun" };
+  return { title: "Забув пароль | SecondFun" };
 }
 
 interface pageProps {

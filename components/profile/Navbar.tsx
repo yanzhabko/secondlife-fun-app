@@ -16,7 +16,7 @@ const Navbar: FC<NavbarProps> = () => {
       <div className="flex flex-col gap-2 items-center">
         {profileLink.map((item, index) => (
           <Link
-            href={`/profile${item.href}`}
+            href={`${item.href}`}
             className={`${path.endsWith(item.href) ? "text-purple-500" : null}`}
             key={index}
           >

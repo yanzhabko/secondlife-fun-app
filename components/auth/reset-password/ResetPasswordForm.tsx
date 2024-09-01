@@ -22,7 +22,7 @@ const ResetPasswordForm: FC<FormProps> = () => {
   return (
     <form className="mx-auto flex flex-col gap-5 justify-center items-center bg-white rounded-lg shadow-lg w-[95%] sm:w-[calc(100%-20%)] md:w-[calc(100%-40%)] xl:w-[40%] p-10">
       <Title
-        title="Відновити пароль"
+        title="Відновлення паролю"
         type="title"
         className="text-purple-400"
       />

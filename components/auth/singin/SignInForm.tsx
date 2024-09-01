@@ -66,7 +66,7 @@ const SignInForm: FC<SignInFormProps> = () => {
       <div className="flex gap-1">
         <Title title="Не пам'ятаєш пароль?" type="text" />
         <Link
-          href="/reset-password"
+          href="/recovery"
           className="text-blue-500 font-semibold text-1 hover:text-blue-700"
         >
           Забули пароль
