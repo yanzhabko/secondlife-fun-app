@@ -1,4 +1,4 @@
-import Form from "@/components/singin/Form";
+import SignInForm from "@/components/auth/singin/SignInForm";
 import { FC } from "react";
 
 interface pageProps {}
@@ -10,7 +10,7 @@ export async function generateMetadata({}) {
 const page: FC<pageProps> = () => {
   return (
     <section className="h-[calc(100vh-230px)] flex flex-col justify-center items-center">
-      <Form />
+      <SignInForm />
     </section>
   );
 };

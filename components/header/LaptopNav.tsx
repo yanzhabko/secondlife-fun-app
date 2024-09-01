@@ -50,7 +50,7 @@ const LaptopNav: FC<LaptopNavProps> = ({
                 types="submenu"
                 title="Профіль"
                 tag="a"
-                href="/profile"
+                href="/profile/personal-information"
                 className="text-white px-3 py-2 rounded-md font-medium bg-purple-400 active:bg-purple-300 hover:bg-purple-300"
                 onClick={onClose}
               />

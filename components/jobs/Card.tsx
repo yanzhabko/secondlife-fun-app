@@ -7,28 +7,23 @@ interface CardProps {
   title: string;
   profit: string;
   level: string;
-  time: string;
 }
 
-const Card: FC<CardProps> = ({ title, profit, level, time }) => {
+const Card: FC<CardProps> = ({ title, profit, level }) => {
   return (
-    <div className="rounded-md border-[2px] flex-1 w-1/2 lg:w-1/4 text-center mb-2">
+    <div className="sm:w-[calc(50%-8px)] md:w-[calc(33.33%-8px)] lg:w-[calc(25%-15px)] items-center rounded-md border-[0.5px] border-gray-400 text-center transition-all duration-200 scale-100 hover:scale-102">
       <Image
         src={image}
         alt=""
         className="bg-center w-full h-[300px] bg-cover bg-no-repeat rounded-t-md"
       />
-      <hr className="my-2" />
-      <Title type="subtitle" title={title} />
-      <hr className="my-2" />
-      <div className="flex items-center justify-between gap-[20px] pb-2 px-6">
+
+      <Title type="subtitle" title={title} className="my-2" />
+      <div className="mt-2 bg-gray-400 w-[90%] h-[1px] mx-auto" />
+      <div className="flex items-center justify-between gap-[20px] py-4 px-6">
         <div>
           <Title type="subtitle" title="Прибуток" />
           <Title type="text" title={profit} />
-        </div>
-        <div>
-          <Title type="subtitle" title="К-сть годин" />
-          <Title type="text" title={time} />
         </div>
         <div>
           <Title type="subtitle" title="Рівень" />

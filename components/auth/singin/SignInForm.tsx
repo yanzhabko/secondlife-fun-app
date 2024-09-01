@@ -1,17 +1,17 @@
 "use client";
 import { FC, useState } from "react";
-import Input from "../Input";
 import Link from "next/link";
-import Button from "../Button";
-import Title from "../Title";
+import Title from "@/components/Title";
+import Input from "@/components/Input";
+import Button from "@/components/Button";
 import toast from "react-hot-toast";
 import { signIn } from "next-auth/react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
-interface FormProps {}
+interface SignInFormProps {}
 
-const Form: FC<FormProps> = () => {
+const SignInForm: FC<SignInFormProps> = () => {
   const router = useRouter();
   const session = useSession();
   const [info, setInfo] = useState({ email: "", password: "" });
@@ -45,35 +45,35 @@ const Form: FC<FormProps> = () => {
   };
 
   return (
-    <form className=" mx-auto flex flex-col gap-5 justify-center items-center bg-white rounded-lg shadow-lg w-[95%] sm:w-[calc(100%-20%)] md:w-[calc(100%-40%)] xl:w-[40%] p-10">
+    <form className="mx-auto flex flex-col gap-5 justify-center items-center bg-white rounded-lg shadow-lg w-[95%] sm:w-[calc(100%-20%)] md:w-[calc(100%-40%)] xl:w-[40%] p-10">
       <Title title="Авторизація" type="title" className="text-purple-400" />
       <Input
         label="Пошта"
         disabled={loading}
         value={info.email}
         name="email"
-        onChange={(e) => handleInput(e)}
+        onChange={(e: any) => handleInput(e)}
       />
       <Input
         label="Пароль"
         disabled={loading}
         value={info.password}
         name="password"
-        onChange={(e) => handleInput(e)}
+        onChange={(e: any) => handleInput(e)}
         type="password"
       />
       <Button title="Увійти" types="login" onClick={login} />
       <div className="flex gap-1">
-        <Title title="Не маєш аккаунту?" type="text" />
+        <Title title="Не пам'ятаєш пароль?" type="text" />
         <Link
-          href="/signup"
+          href="/reset-password"
           className="text-blue-500 font-semibold text-1 hover:text-blue-700"
         >
-          Регістрація
+          Забули пароль
         </Link>
       </div>
     </form>
   );
 };
 
-export default Form;
+export default SignInForm;

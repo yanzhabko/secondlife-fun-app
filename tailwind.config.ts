@@ -32,6 +32,9 @@ const config: Config = {
           xl: "80px",
         },
       },
+      scale: {
+        "102": "1.02",
+      },
     },
   },
   plugins: [],

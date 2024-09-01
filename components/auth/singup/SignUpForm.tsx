@@ -1,17 +1,17 @@
 "use client";
 import { FC, useState } from "react";
-import Input from "../Input";
 import Link from "next/link";
-import Button from "../Button";
-import Title from "../Title";
+import Title from "@/components/Title";
+import Input from "@/components/Input";
+import Button from "@/components/Button";
 import toast from "react-hot-toast";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { singUp } from "@/app/action/user/singup";
 
-interface FormProps {}
+interface SignUpFormProps {}
 
-const Form: FC<FormProps> = () => {
+const SignUpForm: FC<SignUpFormProps> = () => {
   const session = useSession();
   const [info, setInfo] = useState({
     email: "",
@@ -34,24 +34,14 @@ const Form: FC<FormProps> = () => {
 
   const register = async () => {
     setLoading(true);
-    try {
-      if (info.password !== info.confirmedPassword) {
-        toast.error("Паролі не співпадають!");
-      } else {
-        const name = `${info.firstName}_${info.secondName}`;
-        await axios.post("/api/register", {
-          name,
-          email: info.email,
-          password: info.password,
-        });
-        toast.success("Ви успішно зараєстровані!");
-        router.push("/signin");
-      }
-    } catch (err: any) {
-      toast.error(err?.response?.data);
-    } finally {
-      setLoading(false);
+    if (info.password !== info.confirmedPassword) {
+      toast.error("Паролі не співпадають!");
     }
+    const name = `${info.firstName}_${info.secondName}`;
+    const massage = await singUp(name, info.email, info.password);
+    router.push("/");
+    toast.success(massage);
+    setLoading(false);
   };
 
   return (
@@ -108,4 +98,4 @@ const Form: FC<FormProps> = () => {
   );
 };
 
-export default Form;
+export default SignUpForm;

@@ -10,7 +10,7 @@ export async function POST(req: Request) {
       return new NextResponse("Заповність всі поля!", { status: 500 });
     }
 
-    const userAlreadyExist = await prisma.user.findFirst({
+    const userAlreadyExist = await prisma.user.findUnique({
       where: {
         email: email,
         name: name,

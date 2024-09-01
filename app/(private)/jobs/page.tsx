@@ -9,7 +9,7 @@ export async function generateMetadata({}) {
 
 const page: FC<pageProps> = () => {
   return (
-    <section className="my-[50px]">
+    <section className="mt-[30px] lg:my-[50px]">
       <JobsSection />
     </section>
   );

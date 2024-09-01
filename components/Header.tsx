@@ -24,7 +24,7 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-transparent w-full py-[14px] px-[24px]">
+    <header className="bg-transparent w-full p-[14px] md:py-[14px] md:px-[24px]">
       <div className="bg-white flex flex-row items-center justify-between px-[25px] py-[10px] lg:px-[40px] lg:py-[20px] rounded-3xl shadow-md">
         <Link href="/" className="flex z-10" onClick={handleClickClose}>
           <Title title="Second" type="title" className="!text-blue-500" />

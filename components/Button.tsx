@@ -26,7 +26,7 @@ const Button: FC<ButtonProps> = ({
         <Tag
           href={href}
           onClick={onClick}
-          className={`${className} cursor-pointer text-center w-auto px-5 py-2 lg:px-10 rounded-lg text-white font-semibold bg-purple-400 hover:bg-purple-500`}
+          className={`${className} cursor-pointer text-center w-auto text-2 lg:text-3 lg:px-5 lg:py-1 xl:px-10 rounded-lg text-white font-semibold bg-purple-400 hover:bg-purple-500`}
         >
           {title}
         </Tag>
