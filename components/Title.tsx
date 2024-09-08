@@ -4,10 +4,11 @@ interface TitleProps {
   title: string | null | undefined;
   className?: string;
   type: "title" | "subtitle" | "text";
+  tag?: "h1" | "p";
 }
 
-const Title: FC<TitleProps> = ({ title, className, type }) => {
-  const Tag = type === "title" ? "h1" : "p";
+const Title: FC<TitleProps> = ({ title, className, type, tag }) => {
+  const Tag = !tag && type === "title" ? "h1" : "p";
   const TitleContext = () => {
     if (type === "title") {
       return (

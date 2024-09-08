@@ -13,11 +13,13 @@ const VerifyEmailSection: FC<VerifyEmailSectionProps> = () => {
     return () => clearTimeout(timer);
   }, []);
   return (
-    <Title
-      type="title"
-      title="Акаунт підтверджено :)"
-      className="text-purple-500"
-    />
+    <section className="h-[calc(100vh-200px)] md:h-[calc(100vh-180px)] lg:h-[calc(100vh-230px)]  flex flex-col justify-center items-center">
+      <Title
+        type="title"
+        title="Акаунт підтверджено :)"
+        className="text-purple-500"
+      />
+    </section>
   );
 };
 

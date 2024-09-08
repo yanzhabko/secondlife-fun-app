@@ -9,9 +9,9 @@ export async function generateMetadata({}) {
 
 const page: FC<pageProps> = () => {
   return (
-    <section className="h-[calc(100vh-230px)] flex flex-col justify-center items-center">
+    <main>
       <SignInForm />
-    </section>
+    </main>
   );
 };
 

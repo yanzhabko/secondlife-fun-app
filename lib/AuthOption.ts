@@ -1,9 +1,22 @@
-import { Account, AuthOptions, Profile, Session, User } from "next-auth";
+import {
+  Account,
+  AuthOptions,
+  Profile,
+  Session,
+  User as NextAuthUser,
+} from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import prisma from "@/prisma/index";
 import bcrypt from "bcrypt";
 import { JWT } from "next-auth/jwt";
 import jwt from "jsonwebtoken";
+
+interface User extends NextAuthUser {
+  discord?: string;
+  phoneNumber?: string;
+  cardNumber?: string;
+  createdAt?: Date;
+}
 
 export const authOptions: AuthOptions = {
   pages: {
@@ -24,6 +37,9 @@ export const authOptions: AuthOptions = {
           where: {
             email: credentials.email,
           },
+          include: {
+            contacts: true,
+          },
         });
         if (!user || !user.id || !user.hashedPassword) {
           throw new Error("Invalid credentials");
@@ -38,7 +54,15 @@ export const authOptions: AuthOptions = {
           throw new Error("Invalid credentials");
         }
 
-        return user;
+        return {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          createdAt: user.createdAt,
+          discord: user.contacts?.discord,
+          phoneNumber: user.contacts?.phoneNumber,
+          cardNumber: user.contacts?.cardNumber,
+        } as User;
       },
     }),
   ],
@@ -63,25 +87,38 @@ export const authOptions: AuthOptions = {
     },
   },
   callbacks: {
-    async session(params: { session: Session; token: JWT; user: User }) {
+    async session(params: { session: Session; token: JWT }) {
       if (params.session.user) {
-        params.session.user.email = params.token.email;
+        params.session.user.email = params.token.email ?? "";
+        params.session.user.discord = params.token.discord ?? "";
+        params.session.user.phoneNumber = params.token.phoneNumber ?? "";
+        params.session.user.cardNumber = params.token.cardNumber ?? "";
+
+        if (typeof params.token.createdAt === "string") {
+          params.session.user.createdAt = new Date(params.token.createdAt);
+        }
       }
 
       return params.session;
     },
     async jwt(params: {
       token: JWT;
-      user?: User | undefined;
-      account?: Account | null | undefined;
-      profile?: Profile | undefined;
-      isNewUser?: boolean | undefined;
+      user?: User;
+      account?: Account | null;
+      profile?: Profile;
+      isNewUser?: boolean;
     }) {
-      if (params.user) {
-        params.token.email = params.user.email;
+      const { token, user } = params;
+
+      if (user) {
+        token.email = user.email;
+        token.discord = user.discord;
+        token.phoneNumber = user.phoneNumber;
+        token.cardNumber = user.cardNumber;
+        token.createdAt = user.createdAt?.toISOString();
       }
 
-      return params.token;
+      return token;
     },
   },
   session: {

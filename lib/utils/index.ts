@@ -7,6 +7,5 @@ export const navLinks = [
 
 export const profileLink = [
   { title: "Загальна інформація", href: "/profile" },
-  { title: "Налаштування", href: "/profile/settings" },
-  { title: "Змінити пароль", href: "/profile/change-password" },
+  { title: "Регадування профілю", href: "profile/update" },
 ];

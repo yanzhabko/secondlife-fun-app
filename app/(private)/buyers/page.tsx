@@ -7,7 +7,7 @@ export async function generateMetadata({}) {
 }
 
 const page: FC<pageProps> = () => {
-  return <div></div>;
+  return <main></main>;
 };
 
 export default page;

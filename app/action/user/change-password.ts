@@ -3,30 +3,14 @@
 import prisma from "@/prisma/index";
 import bcrypt from "bcrypt";
 
-export const changePassword = async (
-  resetPasswordToken: string,
-  password: string
-) => {
-  const user = await prisma.user.findFirst({
+export const changePassword = async (email: string, password: string) => {
+  const user = await prisma.user.findUnique({
     where: {
-      resetPasswordToken,
+      email,
     },
   });
-
   if (!user) {
     throw new Error("Такий користувач не знайдений!");
-  }
-
-  const resetPasswordTokenExpiry = user.resetPasswordTokenExpiry;
-
-  if (!resetPasswordTokenExpiry) {
-    throw new Error("Щось пішло не так!");
-  }
-
-  const today = new Date();
-
-  if (today < resetPasswordTokenExpiry) {
-    throw new Error("Щось пішло не так!");
   }
 
   const hashedPassword = bcrypt.hashSync(password, 10);
@@ -37,10 +21,8 @@ export const changePassword = async (
     },
     data: {
       hashedPassword,
-      resetPasswordToken: null,
-      resetPasswordTokenExpiry: null,
     },
   });
 
-  return "Пароль змінений успішно!";
+  return "Пароль успішно змінений!";
 };

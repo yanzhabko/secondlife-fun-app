@@ -20,21 +20,23 @@ const ResetPasswordForm: FC<FormProps> = () => {
     setLoading(false);
   };
   return (
-    <form className="mx-auto flex flex-col gap-5 justify-center items-center bg-white rounded-lg shadow-lg w-[95%] sm:w-[calc(100%-20%)] md:w-[calc(100%-40%)] xl:w-[40%] p-10">
-      <Title
-        title="Відновлення паролю"
-        type="title"
-        className="text-purple-400"
-      />
-      <Input
-        label="Пошта"
-        value={email}
-        name="email"
-        disabled={loading}
-        onChange={(e: any) => setEmail(e.target.value)}
-      />
-      <Button types="login" title="Відправити" onClick={handleSubmit} />
-    </form>
+    <section className="h-[calc(100vh-200px)] md:h-[calc(100vh-180px)] lg:h-[calc(100vh-230px)]  flex flex-col justify-center items-center">
+      <form className="mx-auto flex flex-col gap-5 justify-center items-center bg-white rounded-lg shadow-lg w-[95%] sm:w-[calc(100%-20%)] md:w-[calc(100%-40%)] xl:w-[40%] p-10">
+        <Title
+          title="Відновлення паролю"
+          type="title"
+          className="text-purple-400"
+        />
+        <Input
+          label="Пошта"
+          value={email}
+          name="email"
+          disabled={loading}
+          onChange={(e: any) => setEmail(e.target.value)}
+        />
+        <Button types="login" title="Відправити" onClick={handleSubmit} />
+      </form>
+    </section>
   );
 };
 

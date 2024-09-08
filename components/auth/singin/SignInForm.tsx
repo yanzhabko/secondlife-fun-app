@@ -36,7 +36,9 @@ const SignInForm: FC<SignInFormProps> = () => {
 
     if (login?.ok) {
       toast.success("Ви увійшли!");
-      router.replace("/");
+
+      router.push("/");
+      location.reload();
     } else if (login?.error) {
       toast.error("Сталась помилка!");
     }
@@ -45,34 +47,36 @@ const SignInForm: FC<SignInFormProps> = () => {
   };
 
   return (
-    <form className="mx-auto flex flex-col gap-5 justify-center items-center bg-white rounded-lg shadow-lg w-[95%] sm:w-[calc(100%-20%)] md:w-[calc(100%-40%)] xl:w-[40%] p-10">
-      <Title title="Авторизація" type="title" className="text-purple-400" />
-      <Input
-        label="Пошта"
-        disabled={loading}
-        value={info.email}
-        name="email"
-        onChange={(e: any) => handleInput(e)}
-      />
-      <Input
-        label="Пароль"
-        disabled={loading}
-        value={info.password}
-        name="password"
-        onChange={(e: any) => handleInput(e)}
-        type="password"
-      />
-      <Button title="Увійти" types="login" onClick={login} />
-      <div className="flex gap-1">
-        <Title title="Не пам'ятаєш пароль?" type="text" />
-        <Link
-          href="/recovery"
-          className="text-blue-500 font-semibold text-1 hover:text-blue-700"
-        >
-          Забули пароль
-        </Link>
-      </div>
-    </form>
+    <section className="h-[calc(100vh-230px)] flex flex-col justify-center items-center">
+      <form className="mx-auto flex flex-col gap-5 justify-center items-center bg-white rounded-lg shadow-lg w-[95%] sm:w-[calc(100%-20%)] md:w-[calc(100%-40%)] xl:w-[40%] p-10">
+        <Title title="Авторизація" type="title" className="text-purple-400" />
+        <Input
+          label="Пошта"
+          disabled={loading}
+          value={info.email}
+          name="email"
+          onChange={(e: any) => handleInput(e)}
+        />
+        <Input
+          label="Пароль"
+          disabled={loading}
+          value={info.password}
+          name="password"
+          onChange={(e: any) => handleInput(e)}
+          type="password"
+        />
+        <Button title="Увійти" types="login" onClick={login} />
+        <div className="flex gap-1">
+          <Title title="Не пам'ятаєш пароль?" type="text" />
+          <Link
+            href="/recovery"
+            className="text-blue-500 font-semibold text-1 hover:text-blue-700"
+          >
+            Забули пароль
+          </Link>
+        </div>
+      </form>
+    </section>
   );
 };
 

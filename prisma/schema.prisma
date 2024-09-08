@@ -13,17 +13,29 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+
 model User {
-  id      String   @id @default(auto()) @map("_id") @db.ObjectId
-  email   String @unique  
-  name String @unique
-  hashedPassword String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  resetPasswordToken String? 
+  id                    String   @id @default(auto()) @map("_id") @db.ObjectId
+  email                 String   @unique  
+  name                  String   @unique
+  hashedPassword        String?
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+  resetPasswordToken    String? 
   resetPasswordTokenExpiry DateTime?
+  emailVerified         Boolean  @default(false)
+  emailVerificationToken String? @unique
 
-  emailVerified Boolean @default(false)
-  emailVerificationToken String?  @unique
+  contacts        Contacts?   @relation("UserContact")
 }
+
+model Contacts {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  discord     String?
+  phoneNumber String?
+  cardNumber  String?
+  
+  userId String? @db.ObjectId @unique
+  user        User?   @relation("UserContact", fields: [userId], references: [id])
+}
+

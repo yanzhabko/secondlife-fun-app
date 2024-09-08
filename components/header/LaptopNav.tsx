@@ -49,8 +49,7 @@ const LaptopNav: FC<LaptopNavProps> = ({
               <Button
                 types="submenu"
                 title="Профіль"
-                tag="a"
-                href="/profile/personal-information"
+                href="/profile"
                 className="text-white px-3 py-2 rounded-md font-medium bg-purple-400 active:bg-purple-300 hover:bg-purple-300"
                 onClick={onClose}
               />
@@ -72,8 +71,8 @@ const LaptopNav: FC<LaptopNavProps> = ({
       ) : (
         <>
           <div className="gap-4 hidden lg:flex">
-            <Button types="header" tag="a" title="Увійти" href="/signin" />
-            <Button types="header" tag="a" title="Регістрація" href="/signup" />
+            <Button types="link" title="Увійти" href="/signin" />
+            <Button types="link" title="Регістрація" href="/signup" />
           </div>
         </>
       )}

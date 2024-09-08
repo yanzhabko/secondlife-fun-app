@@ -7,7 +7,7 @@ export async function generateMetadata({}) {
 interface pageProps {}
 
 const page: FC<pageProps> = async () => {
-  return <section></section>;
+  return <main></main>;
 };
 
 export default page;

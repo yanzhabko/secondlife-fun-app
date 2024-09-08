@@ -1,26 +1,22 @@
 "use client";
 
 import { FC, useState } from "react";
-import Title from "@/components/Title";
-import Input from "@/components/Input";
 import Button from "@/components/Button";
+import Input from "@/components/Input";
 import toast from "react-hot-toast";
-import { recoveryPassword } from "@/app/action/user/recovery-password";
-import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { changePassword } from "@/app/action/user/change-password";
+import Title from "@/components/Title";
 
-interface ChangePasswordFormFormProps {
-  resetPasswordToken: string;
-}
+interface ChangePasswordFormProps {}
 
-const ChangePasswordForm: FC<ChangePasswordFormFormProps> = ({
-  resetPasswordToken,
-}) => {
+const ChangePasswordForm: FC<ChangePasswordFormProps> = () => {
   const [info, setInfo] = useState({
     password: "",
     confirmedPassword: "",
   });
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
+  const session = useSession();
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -35,12 +31,12 @@ const ChangePasswordForm: FC<ChangePasswordFormFormProps> = ({
     }
 
     try {
-      const massages = await recoveryPassword(
-        resetPasswordToken,
+      const massages = await changePassword(
+        session.data?.user?.email as string,
         info.password
       );
       toast.success(massages);
-      router.push("/signin");
+      setInfo({ password: "", confirmedPassword: "" });
     } catch (err: any) {
       toast.error(err.message || "Помилка при зміні пароля");
     } finally {
@@ -49,13 +45,9 @@ const ChangePasswordForm: FC<ChangePasswordFormFormProps> = ({
   };
 
   return (
-    <section className="h-[calc(100vh-200px)] md:h-[calc(100vh-180px)] lg:h-[calc(100vh-230px)]  flex flex-col justify-center items-center">
-      <form className="mx-auto flex flex-col gap-5 justify-center items-center bg-white rounded-lg shadow-lg w-[95%] sm:w-[calc(100%-20%)] md:w-[calc(100%-40%)] xl:w-[40%] p-10">
-        <Title
-          title="Змінити пароль"
-          type="title"
-          className="text-purple-400"
-        />
+    <div className="w-full flex flex-col items-center mb-[20px] lg:m-0">
+      <Title type="title" title="Зміна паролю" className="text-purple-500" />
+      <form className="w-full sm:w-[50%] flex flex-col gap-4 items-center mt-[10px]">
         <Input
           label="Пароль"
           disabled={loading}
@@ -72,9 +64,9 @@ const ChangePasswordForm: FC<ChangePasswordFormFormProps> = ({
           name="confirmedPassword"
           type="password"
         />
-        <Button title="Змінити пароль" types="login" onClick={handleSubmit} />
+        <Button title="Зберегти" types="login" onClick={handleSubmit} />
       </form>
-    </section>
+    </div>
   );
 };
 

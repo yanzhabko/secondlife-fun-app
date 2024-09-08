@@ -24,7 +24,7 @@ export default function RootLayout({
         <ToastProvider />
         <NextAuthProvider>
           <Header />
-          <main>{children}</main>
+          {children}
           <Footer />
         </NextAuthProvider>
       </body>

@@ -31,9 +31,9 @@ const page: FC<pageProps> = async ({ searchParams }) => {
       },
     });
     return (
-      <section className="h-[calc(100vh-200px)] md:h-[calc(100vh-180px)] lg:h-[calc(100vh-230px)]  flex flex-col justify-center items-center">
+      <main>
         <VerifyEmailSection />
-      </section>
+      </main>
     );
   } else {
     return null;
