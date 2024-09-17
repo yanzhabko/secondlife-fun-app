@@ -30,7 +30,7 @@ const Footer: FC<FooterProps> = () => {
               />
             </Link>
           </div>
-          <Link target="_black" href="https://secondliferp.com.ua/">
+          <Link target="_black" href="https:/yanzhabko.vercel.app/">
             <Title
               type="text"
               title="Розробник - yanzhabko"

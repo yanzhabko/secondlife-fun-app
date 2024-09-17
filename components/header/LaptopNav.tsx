@@ -1,8 +1,10 @@
+"use client";
 import { FC } from "react";
 import Button from "../Button";
-import { navLinks } from "@/lib/utils";
+import { navLinks } from "@/lib/index";
 import Link from "next/link";
 import Title from "../Title";
+import { usePathname } from "next/navigation";
 
 interface LaptopNavProps {
   onClose: () => void;
@@ -17,20 +19,42 @@ const LaptopNav: FC<LaptopNavProps> = ({
   isActive,
   session,
 }) => {
+  const pathname = usePathname();
   return (
     <>
       {session?.status === "authenticated" ? (
         <>
           <nav className="hidden gap-8 lg:flex z-10">
             {navLinks.map((item, index) => (
-              <Link
-                href={item.href}
-                key={index}
-                className="transition-all duration-200 hover:text-purple-500 relative hover:before:absolute hover:before:w-full hover:before:h-0.5 hover:before:top-full hover:before:bg-purple-500"
-                onClick={onClose}
-              >
-                <Title title={item.title} type="subtitle" />
-              </Link>
+              <div key={index} className="relative group">
+                <Link
+                  href={item.href === "/" ? "/" : ""}
+                  className={`${
+                    pathname === item.href ||
+                    (pathname.startsWith(item.href) && item.href !== "/")
+                      ? "relative before:absolute before:w-full before:h-0.5 before:top-full before:bg-purple-500"
+                      : ""
+                  } transition-all duration-200 hover:text-purple-500 relative hover:before:absolute hover:before:w-full hover:before:h-0.5 hover:before:top-full hover:before:bg-purple-500`}
+                  onClick={onClose}
+                >
+                  <Title title={item.title} type="subtitle" />
+                </Link>
+
+                {item.subLinks.length !== 0 && (
+                  <div className="absolute rounded-b-lg flex-col gap-2 py-2 px-4 items-center left-0 hidden top-[120%] bg-white text-black group-hover:flex shadow-lg group-hover:before:w-full group-hover:before:h-2 group-hover:before:-top-2 group-hover:before:block group-hover:before:absolute group-hover:before:left-0 group-hover:before:bg-transparent">
+                    {item.subLinks.map((subItem, subIndex) => (
+                      <Link
+                        href={`${item.href}${subItem.href}`}
+                        key={subIndex}
+                        className="block transition-all duration-200 hover:text-purple-500"
+                        onClick={onClose}
+                      >
+                        <Title title={subItem.title} type="subtitle" />
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
             ))}
           </nav>
           <div className="relative hidden lg:flex">
