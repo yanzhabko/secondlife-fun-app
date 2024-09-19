@@ -1,58 +1,22 @@
 "use client";
 
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 import { DataTable } from "./Table/DataTable";
-import { columns, Buyers } from "@/components/buyers/Table/Column";
+import { columns } from "@/components/buyers/Table/Column";
 import UpdateInformation from "./UpdateInformation";
 import Button from "../Button";
 import NavBar from "./NavBar";
-import { buyers } from "@/lib/index";
-import { usePathname } from "next/navigation";
-
-async function getData(category: string): Promise<Buyers[]> {
-  if (category.includes("fish")) {
-    return buyers.fish
-      .map((item) => {
-        const percentage =
-          ((item.nowPrice - item.min) / (item.max - item.min)) * 100;
-        return { ...item, percentage };
-      })
-      .sort((a, b) => b.percentage - a.percentage);
-  } else if (category.includes("vegetables")) {
-    return buyers.vegetables
-      .map((item) => {
-        const percentage =
-          ((item.nowPrice - item.min) / (item.max - item.min)) * 100;
-        return { ...item, percentage };
-      })
-      .sort((a, b) => b.percentage - a.percentage);
-  } else {
-    return buyers.other
-      .map((item) => {
-        const percentage =
-          ((item.nowPrice - item.min) / (item.max - item.min)) * 100;
-        return { ...item, percentage };
-      })
-      .sort((a, b) => b.percentage - a.percentage);
-  }
-}
+import toast from "react-hot-toast";
+import useBuyersByCategory from "@/hooks/useBuyersByCategory";
 
 const BuyersSection: FC = () => {
-  const pathname = usePathname();
-  const [data, setData] = useState<Buyers[]>();
+  const { data, isLoading, time } = useBuyersByCategory();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const result = await getData(pathname);
-      setData(result);
-    };
-    fetchData();
-  }, [pathname]);
   return (
     <section className="container flex flex-col gap-10">
       <NavBar id="Скупники" />
       <div className="flex justify-between gap-[30px] items-center">
-        <UpdateInformation lastTime="16.09 16:40" newTime="16.09 21:40" />
+        <UpdateInformation lastTime={time.latest} newTime={time.update} />
         <Button
           title="Оновити ціни"
           tag="button"
@@ -60,7 +24,7 @@ const BuyersSection: FC = () => {
           className="flex-0 !py-3"
         />
       </div>
-      <DataTable columns={columns} data={data || []} />
+      <DataTable columns={columns} data={data || []} isLoading={isLoading} />
     </section>
   );
 };

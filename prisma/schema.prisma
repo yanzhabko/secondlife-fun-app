@@ -39,3 +39,24 @@ model Contacts {
   user        User?   @relation("UserContact", fields: [userId], references: [id])
 }
 
+model Category {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  type        String   @unique
+  title       String
+  updatedAt    DateTime @updatedAt
+  latestUpdate DateTime? @default(now())
+
+  buyers      Buyers[]  @relation("BuyersCategory")
+}
+
+model Buyers {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  minimum     Int
+  maximum     Int
+  priceNow    Int
+  percentage  Int?
+
+  categoryId  String  @db.ObjectId
+  category    Category @relation("BuyersCategory", fields: [categoryId], references: [id])
+}

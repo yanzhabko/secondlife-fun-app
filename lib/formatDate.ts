@@ -13,7 +13,6 @@ enum Month {
   December = "12",
 }
 
-// Convert month index to month string
 const getMonthString = (monthIndex: number): string => {
   const months = Object.values(Month);
   return months[monthIndex] || "00";
@@ -28,4 +27,13 @@ export const formatDate = (dateString: string | undefined) => {
   const year = date.getUTCFullYear();
 
   return `${day}.${month}.${year}`;
+};
+
+export const formatTime = (date: Date): string => {
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+
+  return `${day}.${month} ${hours}:${minutes}`;
 };

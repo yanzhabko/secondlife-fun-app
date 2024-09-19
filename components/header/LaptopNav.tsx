@@ -28,7 +28,11 @@ const LaptopNav: FC<LaptopNavProps> = ({
             {navLinks.map((item, index) => (
               <div key={index} className="relative group">
                 <Link
-                  href={item.href === "/" ? "/" : ""}
+                  href={
+                    !(item.href === "/buyers" || item.href === "/dealership")
+                      ? item.href
+                      : "#"
+                  }
                   className={`${
                     pathname === item.href ||
                     (pathname.startsWith(item.href) && item.href !== "/")

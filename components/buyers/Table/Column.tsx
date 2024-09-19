@@ -6,27 +6,27 @@ import { Button } from "@/components/ui/button";
 
 export type Buyers = {
   id: string;
-  name: string;
-  min: number;
-  max: number;
-  nowPrice: number;
-  percentage: number;
+  title: string;
+  minimum: number;
+  maximum: number;
+  priceNow: number;
+  percentage: number | null;
 };
 
 export const columns: ColumnDef<Buyers>[] = [
   {
-    accessorKey: "name",
+    accessorKey: "title",
     header: () => <div className="text-center">Товар</div>,
     cell: ({ row }) => {
-      const item = row.getValue<string>("name");
+      const item = row.getValue<string>("title");
       return <div className="text-center font-semibold p-4">{item}</div>;
     },
   },
   {
-    accessorKey: "min",
+    accessorKey: "minimum",
     header: () => <div className="text-center">Мін</div>,
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("min"));
+      const amount = parseFloat(row.getValue("minimum"));
       const formatted = new Intl.NumberFormat("en-US", {
         style: "currency",
         currency: "USD",
@@ -38,10 +38,10 @@ export const columns: ColumnDef<Buyers>[] = [
     },
   },
   {
-    accessorKey: "max",
+    accessorKey: "maximum",
     header: () => <div className="text-center">Макс</div>,
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("max"));
+      const amount = parseFloat(row.getValue("maximum"));
       const formatted = new Intl.NumberFormat("en-US", {
         style: "currency",
         currency: "USD",
@@ -53,10 +53,10 @@ export const columns: ColumnDef<Buyers>[] = [
     },
   },
   {
-    accessorKey: "nowPrice",
+    accessorKey: "priceNow",
     header: () => <div className="text-center">Поточна</div>,
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("nowPrice"));
+      const amount = parseFloat(row.getValue("priceNow"));
       const formatted = new Intl.NumberFormat("en-US", {
         style: "currency",
         currency: "USD",

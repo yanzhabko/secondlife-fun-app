@@ -3,7 +3,7 @@ import { FC } from "react";
 import Title from "../Title";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { profileLink } from "@/lib/utils";
+import { profileLink } from "@/lib/index";
 
 interface NavbarProps {}
 
