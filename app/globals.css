@@ -47,13 +47,22 @@ img {
   max-width: 100%;
   height: auto;
   vertical-align: middle;
-  
 }
 
 h1,
 p {
   margin: 0;
   padding: 0;
+}
+
+.modal-content {
+  overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.modal-content::-webkit-scrollbar {
+  display: none;
 }
 
 @layer base {

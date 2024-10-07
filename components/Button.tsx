@@ -2,14 +2,16 @@
 import { FC } from "react";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
+import { IconType } from "react-icons";
 
 interface ButtonProps {
   title: string | undefined | null;
   className?: string;
   onClick?: (e?: any) => void;
   tag?: "div" | "button" | "a";
-  types: "login" | "logout" | "link" | "submenu";
+  types: "login" | "logout" | "link" | "submenu" | "icon";
   href?: string;
+  Icon?: IconType;
 }
 
 const Button: FC<ButtonProps> = ({
@@ -19,6 +21,7 @@ const Button: FC<ButtonProps> = ({
   tag = "div",
   types,
   href,
+  Icon,
 }) => {
   const Tag = tag;
   const ButtonContext = () => {
@@ -62,6 +65,15 @@ const Button: FC<ButtonProps> = ({
             {title}
           </Tag>
         </Link>
+      );
+    } else if (types === "icon") {
+      return (
+        <Tag
+          onClick={onClick}
+          className={`${className} cursor-pointer text-center w-auto `}
+        >
+          {Icon && <Icon className="w-5 h-5 lg:w-6 md:h-6" />}
+        </Tag>
       );
     } else {
       return null;

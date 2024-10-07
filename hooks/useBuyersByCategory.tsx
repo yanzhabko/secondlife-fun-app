@@ -5,10 +5,21 @@ import { getBuyersByCategory } from "@/app/action/buyers/get-buyers-by-category"
 import toast from "react-hot-toast";
 import { formatTime } from "@/lib/formatDate";
 
+interface Time {
+  update: string;
+  latest: string;
+}
+
+interface Category {
+  title: string;
+  type: string;
+}
+
 const useBuyersByCategory = () => {
   const pathname = usePathname();
+  const [category, setCategory] = useState<Category | undefined>();
   const [data, setData] = useState<Buyers[] | undefined>(undefined);
-  const [time, setTime] = useState({
+  const [time, setTime] = useState<Time>({
     update: "",
     latest: "",
   });
@@ -22,6 +33,10 @@ const useBuyersByCategory = () => {
           pathname.replace("/buyers/", "")
         );
         setData(result.buyers);
+        setCategory({
+          title: result.categories.title,
+          type: result.categories.type, 
+        });
         setTime({
           update: formatTime(result.time.updated),
           latest: result.time.latest ? formatTime(result.time.latest) : "N/A",
@@ -36,7 +51,7 @@ const useBuyersByCategory = () => {
     fetchData();
   }, [pathname]);
 
-  return { data, isLoading, time };
+  return { data, category, isLoading, time, pathname };
 };
 
 export default useBuyersByCategory;

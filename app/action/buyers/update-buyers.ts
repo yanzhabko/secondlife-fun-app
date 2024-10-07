@@ -2,7 +2,10 @@
 
 import prisma from "@/prisma/index";
 
-export const updateBuyers = async (categoryName: string, newPrices: []) => {
+export const updateBuyers = async (
+  categoryName: string,
+  newPrices: number[]
+) => {
   const categories = await prisma.category.findUnique({
     where: { type: categoryName },
     include: { buyers: true },
@@ -12,22 +15,21 @@ export const updateBuyers = async (categoryName: string, newPrices: []) => {
     throw new Error("Щось пішло не так!");
   }
 
-  const calculateOriginalPrice = (buyer: {
-    minimum: number;
-    maximum: number;
-  }) => {
-    return (buyer.minimum + buyer.maximum) / 2;
+  const calculatePercentage = (
+    newPrice: number,
+    maximum: number,
+    minimum: number
+  ): number => {
+    return Math.round(((minimum - newPrice) / (minimum - maximum)) * 100);
   };
 
-  const calculatePercentage = (originalPrice: number, newPrice: number) => {
-    if (originalPrice === 0) return 0;
-    return Math.round(((newPrice - originalPrice) / originalPrice) * 100);
-  };
-
-  const update = categories.buyers.map((item, index) => {
+  const updateBuyersPromises = categories.buyers.map((item, index) => {
     const newPrice = newPrices[index];
-    const originalPrice = calculateOriginalPrice(item);
-    const percentage = calculatePercentage(originalPrice, newPrice);
+    const percentage = calculatePercentage(
+      newPrice,
+      item.maximum,
+      item.minimum
+    );
 
     return prisma.buyers.update({
       where: { id: item.id },
@@ -38,5 +40,14 @@ export const updateBuyers = async (categoryName: string, newPrices: []) => {
     });
   });
 
-  await Promise.all(update);
+  const updateCategoryPromise = prisma.category.update({
+    where: { type: categoryName },
+    data: {
+      latestUpdate: new Date(),
+    },
+  });
+
+  await Promise.all([...updateBuyersPromises, updateCategoryPromise]);
+
+  return "Дані оновлені!";
 };

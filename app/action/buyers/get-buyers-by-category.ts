@@ -23,6 +23,7 @@ export const getBuyersByCategory = async (categoryName: string) => {
       updated: categories.updatedAt,
       latest: categories.latestUpdate || null,
     },
+    categories: categories,
     buyers: categories?.buyers,
   };
 };

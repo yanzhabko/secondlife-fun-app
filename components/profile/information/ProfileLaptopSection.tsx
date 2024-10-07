@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Title from "@/components/Title";
 import ProfileTitle from "./ProfileTitle";
-import { formatDate } from "@/lib/utils/formatDate";
+import { formatDate } from "@/lib/formatDate";
 import profile from "@/images/profile.jpg";
 
 interface ProfileLaptopSectionProps {}
