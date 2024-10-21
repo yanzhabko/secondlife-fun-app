@@ -15,7 +15,7 @@ export const ResetPasswordEmailTemplate: React.FC<
       </h1>
       <p>Для зміни паролю натисніть на посилання</p>
       <a
-        href={`http://localhost:3000/verify-user?token=${emailVerificationToken}`}
+        href={`http://secondlife-fun-app.vercel.app/verify-user?token=${emailVerificationToken}`}
       >
         Зміна паролю
       </a>
