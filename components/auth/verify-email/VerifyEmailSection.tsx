@@ -11,7 +11,7 @@ const VerifyEmailSection: FC<VerifyEmailSectionProps> = () => {
   useEffect(() => {
     const timer = setTimeout(() => router.push("/"), 5000);
     return () => clearTimeout(timer);
-  }, []);
+  }, [router]);
   return (
     <section className="h-[calc(100vh-200px)] md:h-[calc(100vh-180px)] lg:h-[calc(100vh-230px)]  flex flex-col justify-center items-center">
       <Title
