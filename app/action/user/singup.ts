@@ -18,22 +18,14 @@ export const singUp = async (name: string, email: string, password: string) => {
 
   const hashedPassword = bcrypt.hashSync(password, 10);
 
+  const emailVerificationToken = crypto.randomBytes(32).toString("base64url");
+
   const createdUser = await prisma.user.create({
     data: {
       name,
       email,
       hashedPassword,
-    },
-  });
-
-  const emailVerificationToken = crypto.randomBytes(32).toString("base64url");
-
-  await prisma.user.update({
-    where: {
-      id: createdUser.id,
-    },
-    data: {
-      emailVerificationToken: emailVerificationToken,
+      emailVerificationToken,
     },
   });
 

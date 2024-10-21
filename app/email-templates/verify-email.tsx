@@ -11,7 +11,7 @@ export const VerifyEmailEmailTemplate: React.FC<
       <p>Dear user,</p>
       <p>Please verify your email address by clicking on the link below:</p>
       <a
-        href={`http://localhost:3000/verify-email?token=${emailVerificationToken}`}
+        href={`http://secondlife-fun-app.vercel.app/verify-email?token=${emailVerificationToken}`}
       >
         Verify Email
       </a>
