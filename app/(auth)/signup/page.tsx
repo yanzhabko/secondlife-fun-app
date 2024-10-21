@@ -4,7 +4,7 @@ import { FC } from "react";
 interface pageProps {}
 
 export async function generateMetadata({}) {
-  return { title: "Регістрація | SecondFun" };
+  return { title: "Реєстрація | SecondFun" };
 }
 
 const page: FC<pageProps> = () => {
