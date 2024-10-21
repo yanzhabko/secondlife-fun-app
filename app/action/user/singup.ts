@@ -38,7 +38,7 @@ export const singUp = async (name: string, email: string, password: string) => {
   });
 
   await sendEmail({
-    from: "Admin <onboarding@resend.dev>",
+    from: "<onboarding@resend.dev>",
     to: [email],
     subject: "Verify your email address",
     react: VerifyEmailEmailTemplate({

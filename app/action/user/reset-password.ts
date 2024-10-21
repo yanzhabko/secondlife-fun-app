@@ -29,7 +29,7 @@ export const resendPassword = async (email: string) => {
   });
 
   await sendEmail({
-    from: "SecondFun <onboarding@resend.dev>",
+    from: "<onboarding@resend.dev>",
     to: [email],
     subject: "Відновлення паролю",
     react: ResetPasswordEmailTemplate({
