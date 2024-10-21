@@ -1,0 +1,7 @@
+{
+  "build": {
+    "env": {
+      "DATABASE_URL": "mongodb+srv://zzabkopro:xSQ07fAzmgM7Vybc@cluster0.tsuj1.mongodb.net/nextauth?retryWrites=true&w=majority&appName=Cluster0"
+    }
+  }
+}
